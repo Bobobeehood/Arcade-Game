@@ -1,7 +1,8 @@
 // Enemies our player must avoid
-var Enemy = function(x,y) {
+var Enemy = function(x, y, speed) {
 	this.x = x; // determines the x coordinate of the enemy
 	this.y =y + 55; // determines the y coordinate of the enemy
+	this.speed = speed;
     // Variables applied to each of our instances go here,
     // we've provided one for you to get started
 
@@ -20,7 +21,8 @@ Enemy.prototype.update = function(dt) {
     // which will ensure the game runs at the same speed for
     // all computers.
 	if(this.x < this.boundary) {
-		this.x += 200 * dt;
+		// increase x by speed * dt
+		this.x += this.speed * dt;
 	}
 	else {
 		this.x = this.defaultposition;
@@ -43,16 +45,40 @@ class Hero {
 		this.step = 101;
 		this.jump = 83;
 		this.startX = this.step * 2;
-		this.startY = (this.jump * 5) - 20;
+		this.startY = (this.jump * 4) + 55;
 		this.x = this.startX; //determines the x-position of the player
 		this.y = this.startY; //determines the y-position of the player
 		//selecting the Hero character
 		this.sprite = 'images/char-boy.png';
+		this.victory = false;
 		}
 		// this draws Hero sprite on the x & y coordinate position just like the enemy
 		render() {
 			ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 		}
+		
+		update() {
+			for(let enemy of allEnemies) {
+				
+				// this check for collision between the player and the enemies
+				if(this.y === enemy.y && (enemy.x + enemy.step/2 > this.x && enemy.x < this.x + this.step/2)) {
+					this.reset();
+				}
+				
+			}
+			//check if hero gets to final destination
+			if(this.y ===55) {
+				this.victory = true;
+			}
+			
+		}
+		
+		//this send the player back to initial position after collision
+		reset() {
+			this.y = this.startY;
+			this.X = this.startX;
+		}
+		
 		//this allows the player to move across/along the grid
 		handleInput(arrowKey) {
 			switch(arrowKey) {
@@ -85,10 +111,10 @@ class Hero {
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
 const player = new Hero();
-const firstBug = new Enemy(-101, 0);
-const secondBug = new Enemy(-101, 83);
-const thirdBug = new Enemy((-101*2.5), 83);
-const forthBug = new Enemy((-101*1.9), 83);
+const firstBug = new Enemy(-101, 0, 200);
+const secondBug = new Enemy(-101, 83, 300);
+const thirdBug = new Enemy((-101*2.5), 83, 300);
+const forthBug = new Enemy((-101*1.9), 83, 330);
 const allEnemies = [];
 allEnemies.push(firstBug,secondBug,thirdBug,forthBug);
 

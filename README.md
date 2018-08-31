@@ -1,5 +1,14 @@
 # Arcade-Game
 
+### How to play the Game
+The application can be played by clicking on [My Page](https://bobobeehood.github.io/Arcade-Game/).
+After which, follow the instructions below
+* The user moves across the board using the Arrowkeys
+* The objective is to reach the water and score point
+* Avoid the bugs, they kill you and you get a negative point
+* You win the game when your score reaches 10 point
+* You loose when your loss point reaches 8
+
 ### Resources I referred to while working on this project:
 
 * https://github.com/lacyjpr/arcade

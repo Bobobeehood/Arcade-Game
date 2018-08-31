@@ -1,0 +1,15 @@
+body {
+    text-align: center;
+}
+
+table {
+	margin: 0 auto;
+}
+
+th,
+tr {
+	padding: 15px;
+	font-size: 1.5em;
+	font-family: cursive;
+	color: tomato;
+}

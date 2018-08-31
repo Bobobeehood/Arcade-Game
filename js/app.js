@@ -1,15 +1,13 @@
 // Enemies our player must avoid
-var Enemy = function(x, y, speed) {
-	this.x = x; // determines the x coordinate of the enemy
-	this.y =y + 55; // determines the y coordinate of the enemy
+var Enemy = function(x,y, speed) {
+    this.x = x;
+	this.y = y + 58;
+	this.step = 101;
 	this.speed = speed;
-    // Variables applied to each of our instances go here,
-    // we've provided one for you to get started
 
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
     this.sprite = 'images/enemy-bug.png';
-	this.step = 101;
 	this.boundary = this.step * 5;
 	this.defaultposition = -this.step;
 };
@@ -25,61 +23,76 @@ Enemy.prototype.update = function(dt) {
 		this.x += this.speed * dt;
 	}
 	else {
+		//return to starting position
 		this.x = this.defaultposition;
 	}
+	
 };
+
 
 // Draw the enemy on the screen, required method for game
+// Draw the scoreboard on the screen, credit
+// https://discussions.udacity.com/t/having-trouble-displaying-the-score/26963
 Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+	//ctx.fillStyle = "tomato";
+    //ctx.font = "16px Comic Sans MS";
+    //ctx.fillText("Score: " + player.playerScore, 40, 70);
+   // ctx.fillText("Lives: " + player.playerLives, 141, 70);
+    //ctx.fillText("Difficulty: " + speedMultiplier, 260, 70);
 };
-
- 
 
 // Now write your own player class
 // This class requires an update(), render() and
 // a handleInput() method.
-//Lets define class Hero
+//The class below defines the Hero(Player)
+//Credit https://matthewcranford.com
 class Hero {
-	constructor() { //needed to initialise a new object
+	constructor() {  //needed to initialise a new object
 		this.step = 101;
 		this.jump = 83;
 		this.startX = this.step * 2;
-		this.startY = (this.jump * 4) + 55;
+		this.startY = (this.jump * 5) + 58;
 		this.x = this.startX; //determines the x-position of the player
 		this.y = this.startY; //determines the y-position of the player
-		//selecting the Hero character
-		this.sprite = 'images/char-boy.png';
-		this.victory = false;
+		this.sprite = 'images/char-boy.png'; // the Hero Character
+	}
+	
+	//This draws the player onto the screen
+	render() {
+		ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+	}
+	
+	update() {
+		//Win condition
+		//did the player get to the river?
+		if(this.y === -25) {
+			scoreWin();
+			this.reset();
 		}
-		// this draws Hero sprite on the x & y coordinate position just like the enemy
-		render() {
-			ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-		}
-		
-		update() {
-			for(let enemy of allEnemies) {
+		else {
+		//this checks for collision between the player and the bugs
+		for(let enemy of allEnemies) {
+			if(this.y === enemy.y  //player's position on y axis = bug's position 
+			&& (enemy.x + enemy.step/2 > this.x // bug's x-position and bug step (on the right) is greater than player's position
+			&& enemy.x < this.x + this.step/2)) { //enemy's x-position (on the left side) is less than player's position and player step (on the right)
+				reduceScore();
+				this.reset();
 				
-				// this check for collision between the player and the enemies
-				if(this.y === enemy.y && (enemy.x + enemy.step/2 > this.x && enemy.x < this.x + this.step/2)) {
-					this.reset();
-				}
-				
-			}
-			//check if hero gets to final destination
-			if(this.y ===55) {
-				this.victory = true;
 			}
 			
 		}
-		
-		//this send the player back to initial position after collision
+	  }
+			
+	}
+	
+	//this send the player back to initial position after collision
 		reset() {
 			this.y = this.startY;
 			this.X = this.startX;
 		}
-		
-		//this allows the player to move across/along the grid
+	
+	//this allows the player to move across/along the grid
 		handleInput(arrowKey) {
 			switch(arrowKey) {
 				case 'left':
@@ -88,7 +101,7 @@ class Hero {
 					}
 					break;
 					case 'up':
-						if(this.y > this.jump) {
+						if(this.y > 0) {
 							this.y -= this.jump;
 						}
 					break;
@@ -98,30 +111,33 @@ class Hero {
 						}
 					break;
 					case 'down':
-						if(this.x < this.jump * 4) {
+						if(this.y < this.jump * 5) {
 							this.y += this.jump;
 						}
 					break;
 				}
 	
 	}
+	
 }
+
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
+
 const player = new Hero();
-const firstBug = new Enemy(-101, 0, 200);
-const secondBug = new Enemy(-101, 83, 300);
-const thirdBug = new Enemy((-101*2.5), 83, 300);
-const forthBug = new Enemy((-101*1.9), 83, 330);
+const myFirstBug = new Enemy(-101, 0, 150);
+const mySecondBug = new Enemy(-101, 83, 250);
+const myThirdBug = new Enemy(-101, (83*2), 280);
+const myForthBug = new Enemy(-101, (83*3), 130);
+const myfifthBug = new Enemy(-101, 83, 180);
 const allEnemies = [];
-allEnemies.push(firstBug,secondBug,thirdBug,forthBug);
+allEnemies.push(myFirstBug, mySecondBug, myThirdBug, myForthBug, myfifthBug);
 
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
-
 document.addEventListener('keyup', function(e) {
     var allowedKeys = {
         37: 'left',
@@ -132,3 +148,17 @@ document.addEventListener('keyup', function(e) {
 
     player.handleInput(allowedKeys[e.keyCode]);
 });
+
+// credit https://github.com/bencodezen/frogger-clone/blob/master/js/app.js
+var winCount = 0;
+var loseCount = 0;
+
+var scoreWin = function() {
+    winCount++;
+    document.getElementById("win").innerHTML = winCount.toString();
+};
+
+var reduceScore = function() {
+    loseCount++;
+    document.getElementById("loss").innerHTML = loseCount.toString();
+};

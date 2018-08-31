@@ -22,24 +22,11 @@ var Engine = (function(global) {
         win = global.window,
         canvas = doc.createElement('canvas'),
         ctx = canvas.getContext('2d'),
-        lastTime,
-		id;
-		
-	const popup = document.querySelector('.modal-bg');
-	const replay = document.querySelector('.modal-button');
-	
-	
+        lastTime;
 
     canvas.width = 505;
-    canvas.height = 606;
+    canvas.height = 646;
     doc.body.appendChild(canvas);
-	
-	replay.addEventListener('click', function() {
-		popup.classList.toggle('hide');
-		playe.reset();
-		player.victory = false;
-		win.requestAnimationFrame(main);
-	});
 
     /* This function serves as the kickoff point for the game loop itself
      * and handles properly calling the update and render methods.
@@ -68,13 +55,7 @@ var Engine = (function(global) {
         /* Use the browser's requestAnimationFrame function to call this
          * function again as soon as the browser is able to draw another frame.
          */
-		 if (player.victory === true) {
-			 win.cancelAnimationFrame(id);
-			 popup.classList.toggle('hide');
-		 }
-		 else {
-        	id = win.requestAnimationFrame(main);
-		 }
+        win.requestAnimationFrame(main);
     }
 
     /* This function does some initial setup that should only occur once,
@@ -127,13 +108,14 @@ var Engine = (function(global) {
          */
         var rowImages = [
                 'images/water-block.png',   // Top row is water
-                'images/stone-block.png',   // Row 1 of 3 of stone
-                'images/stone-block.png',   // Row 2 of 3 of stone
-                'images/stone-block.png',   // Row 3 of 3 of stone
+                'images/stone-block.png',   // Row 1 of 4 of stone
+				'images/stone-block.png',   // Row 2 of 4 of stone
+                'images/stone-block.png',   // Row 3 of 4 of stone
+				'images/stone-block.png',   // Row 4 of 4 of stone
                 'images/grass-block.png',   // Row 1 of 2 of grass
                 'images/grass-block.png'    // Row 2 of 2 of grass
             ],
-            numRows = 6,
+            numRows = 7,
             numCols = 5,
             row, col;
         

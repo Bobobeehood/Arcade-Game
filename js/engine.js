@@ -156,7 +156,7 @@ var Engine = (function(global) {
 
             //draw styled text
             createCanvasText("Congratulations! You win the game!",115,200,"orange");
-            createCanvasText("click RESTART to play again", 115, 260);
+            //createCanvasText("click RESTART to play again", 115, 260);
 
         //if lose the game, render losing message
         } else if(loseGame) {
@@ -165,7 +165,7 @@ var Engine = (function(global) {
 
             //draw styled text
             createCanvasText("Game Over ... You lost the game.  Your final score is -" + loseCount + "...", 70, 200, "rgb(200,200,0)");
-            createCanvasText("Click RESTART to play again", 70, 260);
+            //createCanvasText("Click RESTART to play again", 70, 260);
         }
     }
 

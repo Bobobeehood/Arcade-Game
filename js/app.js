@@ -5,7 +5,7 @@ var loseGame = false;
 
 
 
-
+//Credit https://matthewcranford.com
 // Enemies our player must avoid
 var Enemy = function(x,y, speed) {
     this.x = x;
@@ -108,7 +108,7 @@ class Hero {
                     loseGame = true
                     }
                 }
-				//gameOver();
+				
         }
 	
 	
@@ -185,44 +185,3 @@ var reduceScore = function() {
     loseCount++;
     document.getElementById("loss").innerHTML = loseCount.toString();
 };
-/*
-//GameOver function
-function gameOver() {
-    //1.stop the enemy: set the speed to 0
-    allEnemies.forEach(function(bug){
-        bug.speed = 0;
-    });
-
-    //2.disable the player's movement
-    //disableKeys();
-   
-
-}*/
-/*
-
-//------------------
-//START/RESTART game
-//-------------------
-//1.set click event to start button
-var startButton = document.getElementById("start");
-startButton.addEventListener("click", startGame);
-
-//2.add key event: press "enter" key to start
-document.addEventListener("keyup",function(e){
-    //console.log(e.keyCode);
-    if(e.keyCode === 13) {
-        //prevent default function for this key
-        e.preventDefault();
-        startGame();
-    }
-});
-
-//enable keyboard manipulation for player
-function enableKeys(){
-    document.addEventListener('keyup', keyListener);
-}
-
-//disable keyboard manipulation for player
-function disableKeys(){
-    document.removeEventListener('keyup', keyListener);
-}*/

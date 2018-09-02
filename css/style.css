@@ -13,3 +13,23 @@ tr {
 	font-family: cursive;
 	color: tomato;
 }
+
+.botton {
+	background-color:tomato;
+    width: 120px;
+    height: 40px;
+    margin-top: 10px;
+    font-size: 20px;
+    text-transform: uppercase;
+	border-radius: 10px;
+	float: right;
+	
+}
+
+.botton:hover {
+    cursor: pointer;
+}
+
+.botton:focus {
+    outline: none;
+}

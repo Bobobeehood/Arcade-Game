@@ -140,6 +140,53 @@ var Engine = (function(global) {
         }
 
         renderEntities();
+		
+		player.checkWin();
+
+        //if win the game, render winning message
+        if(winGame) {
+            //draw bottom rectanglar box
+            createCanvasBox();
+
+            //draw celebration image
+            var imgCelebrate = new Image();
+            //celebration image source: http://www.free-icons-download.net/images/celebration-icons-24203.png
+            imgCelebrate.src = "images/celebration.png";
+            ctx.drawImage(imgCelebrate, 0, 0, 512, 512, 0, 140, 128, 128);
+
+            //draw styled text
+            createCanvasText("Congratulations! You win the game!",115,200,"orange");
+            createCanvasText("click RESTART to play again", 115, 260);
+
+        //if lose the game, render losing message
+        } else if(loseGame) {
+            //draw bottom rectanglar box
+            createCanvasBox();
+
+            //draw styled text
+            createCanvasText("Game Over ... You lost the game.  Your final score is -" + loseCount + "...", 70, 200, "rgb(200,200,0)");
+            createCanvasText("Click RESTART to play again", 70, 260);
+        }
+    }
+
+    //this function create styled text on canvas
+    function createCanvasText(text,x,y,color="white") {
+        ctx.fillStyle = color;
+        ctx.strokeStyle = "black";
+        ctx.lineWidth = 1;
+        ctx.font = "18px anton";
+        ctx.fillText(text.toUpperCase(), x, y);
+        ctx.strokeText(text.toUpperCase(), x, y);
+    }
+
+    //this function draw styled bottom rectanglar box
+    function createCanvasBox() {
+        ctx.globalAlpha = 0.8;
+        ctx.fillRect(10,150,485,130);
+        ctx.strokeRect(10,150,485,130);
+        ctx.globalAlpha = 1;
+    
+
     }
 
     /* This function is called by the render function and is called on each game
@@ -155,6 +202,7 @@ var Engine = (function(global) {
         });
 
         player.render();
+		
     }
 
     /* This function does nothing but it could have been a good place to

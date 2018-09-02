@@ -1,3 +1,11 @@
+var winCount = 0;
+var loseCount = 0;
+var winGame = false;
+var loseGame = false;
+
+
+
+
 // Enemies our player must avoid
 var Enemy = function(x,y, speed) {
     this.x = x;
@@ -31,20 +39,16 @@ Enemy.prototype.update = function(dt) {
 
 
 // Draw the enemy on the screen, required method for game
-// Draw the scoreboard on the screen, credit
-// https://discussions.udacity.com/t/having-trouble-displaying-the-score/26963
+
 Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-	//ctx.fillStyle = "tomato";
-    //ctx.font = "16px Comic Sans MS";
-    //ctx.fillText("Score: " + player.playerScore, 40, 70);
-   // ctx.fillText("Lives: " + player.playerLives, 141, 70);
-    //ctx.fillText("Difficulty: " + speedMultiplier, 260, 70);
+	
 };
 
 // Now write your own player class
 // This class requires an update(), render() and
 // a handleInput() method.
+
 //The class below defines the Hero(Player)
 //Credit https://matthewcranford.com
 class Hero {
@@ -69,15 +73,17 @@ class Hero {
 		if(this.y === -25) {
 			scoreWin();
 			this.reset();
+			this.checkWin();
 		}
 		else {
 		//this checks for collision between the player and the bugs
 		for(let enemy of allEnemies) {
 			if(this.y === enemy.y  //player's position on y axis = bug's position 
-			&& (enemy.x + enemy.step/2 > this.x // bug's x-position and bug step (on the right) is greater than player's position
+			&& (enemy.x + enemy.step/2 > this.x   //bug's x-position and bug step (on the right) is greater than player's position
 			&& enemy.x < this.x + this.step/2)) { //enemy's x-position (on the left side) is less than player's position and player step (on the right)
 				reduceScore();
 				this.reset();
+				this.checkWin();
 				
 			}
 			
@@ -91,6 +97,20 @@ class Hero {
 			this.y = this.startY;
 			this.X = this.startX;
 		}
+		
+		checkWin() {
+           if (winCount === 10) {
+       //change to win status
+               winGame = true;
+           }
+            else {
+                if(loseCount === 8) {
+                    loseGame = true
+                    }
+                }
+				//gameOver();
+        }
+	
 	
 	//this allows the player to move across/along the grid
 		handleInput(arrowKey) {
@@ -116,7 +136,6 @@ class Hero {
 						}
 					break;
 				}
-	
 	}
 	
 }
@@ -127,6 +146,8 @@ class Hero {
 // Place the player object in a variable called player
 
 const player = new Hero();
+
+
 const myFirstBug = new Enemy(-101, 0, 150);
 const mySecondBug = new Enemy(-101, 83, 250);
 const myThirdBug = new Enemy(-101, (83*2), 280);
@@ -134,6 +155,8 @@ const myForthBug = new Enemy(-101, (83*3), 130);
 const myfifthBug = new Enemy(-101, 83, 180);
 const allEnemies = [];
 allEnemies.push(myFirstBug, mySecondBug, myThirdBug, myForthBug, myfifthBug);
+
+
 
 
 // This listens for key presses and sends the keys to your
@@ -149,9 +172,9 @@ document.addEventListener('keyup', function(e) {
     player.handleInput(allowedKeys[e.keyCode]);
 });
 
+
 // credit https://github.com/bencodezen/frogger-clone/blob/master/js/app.js
-var winCount = 0;
-var loseCount = 0;
+
 
 var scoreWin = function() {
     winCount++;
@@ -162,3 +185,44 @@ var reduceScore = function() {
     loseCount++;
     document.getElementById("loss").innerHTML = loseCount.toString();
 };
+/*
+//GameOver function
+function gameOver() {
+    //1.stop the enemy: set the speed to 0
+    allEnemies.forEach(function(bug){
+        bug.speed = 0;
+    });
+
+    //2.disable the player's movement
+    //disableKeys();
+   
+
+}*/
+/*
+
+//------------------
+//START/RESTART game
+//-------------------
+//1.set click event to start button
+var startButton = document.getElementById("start");
+startButton.addEventListener("click", startGame);
+
+//2.add key event: press "enter" key to start
+document.addEventListener("keyup",function(e){
+    //console.log(e.keyCode);
+    if(e.keyCode === 13) {
+        //prevent default function for this key
+        e.preventDefault();
+        startGame();
+    }
+});
+
+//enable keyboard manipulation for player
+function enableKeys(){
+    document.addEventListener('keyup', keyListener);
+}
+
+//disable keyboard manipulation for player
+function disableKeys(){
+    document.removeEventListener('keyup', keyListener);
+}*/

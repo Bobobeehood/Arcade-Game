@@ -1,4 +1,4 @@
-# Arcade-Game
+# Udacity Front-End Nanodegree: Arcade- Frogger Game
 
 ### How to play the Game
 The application can be played by clicking on [My Page](https://bobobeehood.github.io/Arcade-Game/).
@@ -14,3 +14,4 @@ After which, follow the instructions below
 * https://github.com/lacyjpr/arcade
 * https://matthewcranford.com/arcade-game-walkthrough
 * https://github.com/bencodezen/frogger-clone
+* https://github.com/sunnymary/arcade-game
